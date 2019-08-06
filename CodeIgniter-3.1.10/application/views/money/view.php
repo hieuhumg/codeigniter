@@ -40,7 +40,7 @@
             <thead>
             <tr>
                 <th scope="col">id</th>
-                <th scope="col">Số tiền</th>
+                <th scope="col">Số tiền(VND)</th>
                 <th scope="col">Nội dung</th>
                 <th scope="col">Ngày tiêu</th>
                 <th scope="col">Ngày tạo</th>
@@ -52,13 +52,13 @@
             <?php foreach ($list as $item) : ?>
             <tr>
                 <th scope="row"><?= $item->id ?></th>
-                <td><?= $item->money ?></td>
+                <td><?= number_format($item->money)?></td>
                 <td><?= $item->content ?></td>
                 <td><?= date('d/m/Y', $item->date) ?></td>
                 <td><?= date('d/m/Y', $item->date_created) ?></td>
                 <td><?= date('d/m/Y', $item->date_modified) ?></td>
                 <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal-<?= $item->id ?>">sửa</button>
-                    <button type="button" class="btn btn-primary btn-sm delete" data-toggle="modal" data-target="#delete_exampleModal-<?= $item->id ?>">xóa</button>
+                    <button type="button" class="btn btn-danger btn-sm delete" data-toggle="modal" data-target="#delete_exampleModal-<?= $item->id ?>">xóa</button>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -87,6 +87,15 @@
     </div>
 </div>
 <?php endforeach;?>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <?php for ($i = 1; $i <= $page; $i++): ?>
+        <li class="page-item"><a class="page-link" href="<?= site_url('money/index/view?page=' . $i); ?>"><?= $i; ?></a></li>
+        <?php endfor; ?>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
 <script>
 
 </script>

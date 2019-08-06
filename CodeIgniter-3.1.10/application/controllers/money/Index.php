@@ -23,34 +23,56 @@
             $data['siteTitle'] = "Quản lý tiền";
             // bat dau xu lý
 
-            $content = $this->input->post('content');
-            $money = $this->input->post('money');
-            $date = $this->input->post('date');
-            $category = $this->input->post('category');
-            if(!empty($date))
+            // xu ly phan validation
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('content', 'Content', 'required',
+                array('required' => 'Nội dung không được để trống'));
+            $this->form_validation->set_rules('money', 'Money', 'required',
+                array('required' => 'Số tiền không được để trống'));
+            $this->form_validation->set_rules('date', 'Date', 'required',
+                array('required' => 'Ngày không được để trống'));
+            $this->form_validation->set_rules('category', 'Category', 'required');
+
+            if ($this->form_validation->run() == FALSE)
             {
-                $old_date = explode('-',$date);
-                $new_date = $old_date[2] . '-' . $old_date[1] . '-' . $old_date[0];
-            }else
-            {
-                $new_date = NULL;
+
+                $listCategory = $this->Category_model->getCategory();
+                $data['listCat'] = $listCategory;
+                $this->load->view($this->templateConfig['header'], $data);
+                $this->load->view($template, $data);
+                $this->load->view($this->templateConfig['footer'], $data);
             }
-            $arrData = array(
-                'status' => 1,
-                'content' => $content,
-                'money' => $money,
-                'date' => strtotime($new_date),
-                'date_created' => time(),
-                'idTL' => $category
-            );
-            $listCategory = $this->Category_model->getCategory();
-            $data['listCat'] = $listCategory;
-            $id = $this->Money_model->add($arrData);
-            echo "vua insert thanh cmn cong id" . $id;
-            // ket thuc xu ly
-            $this->load->view($this->templateConfig['header'], $data);
-            $this->load->view($template, $data);
-            $this->load->view($this->templateConfig['footer'], $data);
+            else
+            {
+                $content = $this->input->post('content');
+                $money = $this->input->post('money');
+                $date = $this->input->post('date');
+                $category = $this->input->post('category');
+                if(!empty($date))
+                {
+                    $old_date = explode('-',$date);
+                    $new_date = $old_date[2] . '-' . $old_date[1] . '-' . $old_date[0];
+                }else
+                {
+                    $new_date = NULL;
+                }
+                $arrData = array(
+                    'status' => 1,
+                    'content' => $content,
+                    'money' => $money,
+                    'date' => strtotime($new_date),
+                    'date_created' => time(),
+                    'idTL' => $category
+                );
+                $id = $this->Money_model->add($arrData);
+
+                // ket thuc xu ly
+                $this->load->view($this->templateConfig['header'], $data);
+                $this->load->view($template, $data);
+                $this->load->view($this->templateConfig['footer'], $data);
+            }
+
+
 
         }
 
@@ -94,13 +116,30 @@
                 $list = $this->Money_model->searchDate($arrData);
                 $data['list'] = $list;
             }
+            //pagination pages
+            $numinpage = 10;
+            $num = $this->Money_model->paginationPages();
+            $page = ceil($num/$numinpage);
+            $data['page'] = $page;
+                // phân trang dựa vào chỉ số dòng theo đường dẫn page
+                if(isset($_GET['page']))
+                {
+                    $numberpage  = $_GET['page'];
+                }else
+                {
+                    $numberpage = 1;
+                }
+                $from  = ($numberpage - 1) * $numinpage;
+                $arrData = array (
+                    'from' => $from
+                );
+                $list = $this->Money_model->pagination($arrData);
+                $data['list'] = $list;
 
+                $this->load->view($this->templateConfig['header'], $data);
+                $this->load->view($template, $data);
+                $this->load->view($this->templateConfig['footer'], $data);
 
-            //kết thúc xử lý
-
-            $this->load->view($this->templateConfig['header'], $data);
-            $this->load->view($template, $data);
-            $this->load->view($this->templateConfig['footer'], $data);
         }
         public function edit()
         {

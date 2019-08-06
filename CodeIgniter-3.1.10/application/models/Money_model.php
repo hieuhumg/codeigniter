@@ -67,13 +67,30 @@ class Money_model extends CI_Model
     // search Date
     public function searchDate($arrData)
     {
-        var_dump($arrData['since']);
         $this->db->select('*');
         $this->db->from($this->table);
         if(!empty($arrData))
         {
             $this->db->where('date BETWEEN '. $arrData['since']. ' and '. $arrData['todate'].'');
         }
+        $query = $this->db->get()->result();
+        return $query;
+
+    }
+    //pagination Pages
+    public function paginationPages()
+    {
+        $this->db->select('id');
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        $num = $query->num_rows();
+        return $num;
+    }
+    public  function pagination($arrData)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $sql = $this->db->limit(10,$arrData['from']);
         $query = $this->db->get()->result();
         return $query;
     }
