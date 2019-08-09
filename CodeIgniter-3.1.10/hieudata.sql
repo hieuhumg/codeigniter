@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 06, 2019 lúc 05:27 AM
+-- Thời gian đã tạo: Th8 09, 2019 lúc 06:12 AM
 -- Phiên bản máy phục vụ: 10.1.40-MariaDB
 -- Phiên bản PHP: 7.3.5
 
@@ -52,7 +52,6 @@ INSERT INTO `money` (`id`, `content`, `money`, `status`, `date`, `date_created`,
 (104, NULL, NULL, 1, 0, 1564644875, NULL, NULL),
 (105, NULL, NULL, 1, 0, 1564646183, NULL, NULL),
 (106, NULL, NULL, 1, 0, 1564652477, NULL, NULL),
-(107, '', 0, 1, 0, 1564652481, NULL, 1),
 (108, 'ăn trưa', 435453, 1, -3600, 1564652482, 1564998459, 1),
 (109, '', 0, 1, 0, 1564718511, NULL, 1),
 (110, '', 0, 1, 0, 1564718519, NULL, 1),
@@ -147,6 +146,29 @@ INSERT INTO `theloaitien` (`id`, `name`, `date_created`, `date_modified`) VALUES
 (1, 'tiền ăn sáng', NULL, NULL),
 (2, 'tiền đám cưới', NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users_public`
+--
+
+CREATE TABLE `users_public` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `users_public`
+--
+
+INSERT INTO `users_public` (`id`, `name`, `email`, `password`, `created`) VALUES
+(1, 'hieuhumg', 'hghgdhtgf@gmail.com', '123', '2019-08-08 09:44:57'),
+(2, 'dvvwefewffd', 'hieuhumg@gmail.com', '123', '2019-08-08 09:55:27'),
+(3, 'dvvwefewff', 'hieuhumg2711@gmail.com', '202cb962ac59075b964b07152d234b70', '2019-08-08 09:56:29');
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -164,6 +186,12 @@ ALTER TABLE `theloaitien`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `users_public`
+--
+ALTER TABLE `users_public`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -178,6 +206,12 @@ ALTER TABLE `money`
 --
 ALTER TABLE `theloaitien`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `users_public`
+--
+ALTER TABLE `users_public`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

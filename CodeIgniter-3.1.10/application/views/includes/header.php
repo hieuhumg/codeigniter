@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?= base_url("assets/css/bootstrap.min.css");?>">
     <link rel="stylesheet" href="<?= base_url("assets/css/jquery-ui.css");?>">
+    <link rel="stylesheet" href="<?= base_url("assets/css/custom.css");?>">
     <title><?= $siteTitle ?></title>
 </head>
 <style>
